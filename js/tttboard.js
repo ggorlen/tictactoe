@@ -65,7 +65,7 @@ TicTacToeBoard.prototype.isWon = function () {
  * Determines whether the game is drawn
  * Note: must be called after isWon()
  *
- * @return true if more than 
+ * @return true if drawn
  */
 TicTacToeBoard.prototype.isDrawn = function () {
   return this.ply >= 9;
@@ -79,7 +79,7 @@ TicTacToeBoard.prototype.isDrawn = function () {
 TicTacToeBoard.prototype.getMoves = function () {
   let xMoves = this.xMoves;
   let oMoves = this.oMoves;
-  return [0, 1, 2, 3, 4, 5, 6, 7, 8].filter(function(e) {
+  return [0, 1, 2, 3, 4, 5, 6, 7, 8].filter(function (e) {
     return !(e in xMoves || e in oMoves);
   });
 }; // end getMoves
@@ -99,6 +99,7 @@ TicTacToeBoard.prototype.clone = function () {
 
 /**
  * Scores a won position based on ply
+ *
  * @return the score rating
  */
 TicTacToeBoard.prototype.scoreWin = function () {
@@ -107,7 +108,8 @@ TicTacToeBoard.prototype.scoreWin = function () {
 
 /**
  * Scores a drawn position
- * @ return the drawn position rating
+ *
+ * @return the drawn position rating
  */
 TicTacToeBoard.prototype.scoreDraw = function () {
   return 0;

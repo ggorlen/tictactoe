@@ -1,2 +1,2 @@
 # tictactoe
-Exercise for simple position searching
+Exercising basic position searching
