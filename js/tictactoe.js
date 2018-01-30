@@ -3,18 +3,18 @@
 /**
  * Tic Tac Toe main game
  */
-function TicTacToe (domElement) {
+function TicTacToe (elem) {
   this.playable = true;
   this.board = new TicTacToeBoard();
   this.negamax = new Negamax();
-  this.domElement = domElement;
+  this.elem = document.getElementById(elem);
 }; // end TicTacToe
 
 /**
  * Send game as HTML table to DOM element
  */
 TicTacToe.prototype.toDOM = function () {
-  document.getElementById(this.domElement).innerHTML = this.toHTML();
+  this.elem.innerHTML = this.toHTML();
 }; // end toDOM
 
 /**
@@ -25,16 +25,16 @@ TicTacToe.prototype.doTurn = function (square) {
     this.board.move(square);
     this.board.move(this.negamax.getBestMove(this.board));
     this.toDOM();
+
     if (this.board.isWon()) {
-      let winner = this.board.ply & 1 ? "X" : "O";
-      document.getElementById(this.domElement).innerHTML += 
-        "<p>" + winner + " wins! <a href='' onclick='init();'>Play again</a></p>";
       this.playable = false;
+      this.elem.innerHTML += "<p>" + this.board.ply & 1 ? "X" : "O" + 
+        " wins! <a href='' onclick='init();'>Play again</a></p>";
     }
     else if (this.board.isDrawn()) {
-      document.getElementById(this.domElement).innerHTML += 
-        "<p>Draw! <a href='' onclick='init();'>Play again</a></p>";
       this.playable = false;
+      this.elem.innerHTML += 
+        "<p>Draw! <a href='' onclick='init();'>Play again</a></p>";
     }
   }
 }; // end doTurn
@@ -45,26 +45,29 @@ TicTacToe.prototype.doTurn = function (square) {
  * @return the HTML string
  */
 TicTacToe.prototype.toHTML = function () {
-  let output = "<table>";
+  const output = ["<table>"];
+
   for (let i = 0; i < 9; i++) {
     if ((i + 1) % 3 === 1) {
-      output += "<tr>";
+      output.push("<tr>");
     }
 
     if (i in this.board.xMoves) {
-      output += "<td class='x'";
+      output.push("<td class='x'");
     }
     else if (i in this.board.oMoves) {
-      output += "<td class='o'";
+      output.push("<td class='o'");
     }
     else {
-      output += "<td class='empty' onclick='ttt.doTurn(" + i + ");'";
+      output.push("<td class='empty' onclick='ttt.doTurn(" + i + ");'");
     }
-    output += "></td>";
+
+    output.push("></td>");
 
     if ((i + 1) % 3 === 0) {
-      output += "</tr>";
+      output.push("<tr>");
     }
   }
-  return output;
+
+  return output.join("");
 }; // end toHTML

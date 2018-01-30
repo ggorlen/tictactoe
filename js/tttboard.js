@@ -34,6 +34,7 @@ TicTacToeBoard.prototype.move = function (square) {
       return true;
     }
   }
+
   return false;
 }; // end move
 
@@ -47,6 +48,7 @@ TicTacToeBoard.prototype.isWon = function () {
     for (let i = 0; i < TicTacToeBoard.winPositions.length; i++) {
       let xWon = true;
       let oWon = true;
+
       for (let j = 0; j < TicTacToeBoard.winPositions[i].length && (xWon || oWon); j++) {
         if (!(TicTacToeBoard.winPositions[i][j] in this.xMoves)) {
           xWon = false;
@@ -55,9 +57,11 @@ TicTacToeBoard.prototype.isWon = function () {
           oWon = false;
         }
       }
+
       if (xWon || oWon) return true;
     }
   }
+
   return false;
 }; // end isWon
 
@@ -77,11 +81,9 @@ TicTacToeBoard.prototype.isDrawn = function () {
  * @return valid moves array
  */
 TicTacToeBoard.prototype.getMoves = function () {
-  let xMoves = this.xMoves;
-  let oMoves = this.oMoves;
   return [0, 1, 2, 3, 4, 5, 6, 7, 8].filter(function (e) {
-    return !(e in xMoves || e in oMoves);
-  });
+    return !(e in this.xMoves || e in this.oMoves);
+  }.bind(this));
 }; // end getMoves
 
 /**
@@ -90,7 +92,7 @@ TicTacToeBoard.prototype.getMoves = function () {
  * @return TicTacToeBoard clone
  */
 TicTacToeBoard.prototype.clone = function () {
-  let ttt = new TicTacToeBoard();
+  const ttt = new TicTacToeBoard();
   ttt.xMoves = JSON.parse(JSON.stringify(this.xMoves));
   ttt.oMoves = JSON.parse(JSON.stringify(this.oMoves));
   ttt.ply = this.ply;
